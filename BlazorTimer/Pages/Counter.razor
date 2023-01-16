@@ -1,0 +1,41 @@
+﻿@page "/counter"
+@using System.Threading
+@using BlazorTimer.Data
+@using BlazorTimer.Services
+
+@inject TimerComponent timerComponent
+
+<PageTitle>Timer</PageTitle>
+
+<h1>Counter</h1>
+
+
+<p class="pCounter">@timerComponent.Weather</p>
+<button class="btn btn-dark" @onclick="timerComponent.AddTime">+30 sec.</button>
+
+@* <TimerComponent></TimerComponent> *@
+
+
+
+@code {
+
+    String weather = "0:00:00";
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        timerComponent.NewAction = StateHasChanged;
+        
+        if (timerComponent.isFirst == false)
+        {
+            timerComponent.isFirst = true;
+            await timerComponent.Timer();
+        }
+    }
+
+    async Task  SetElem()
+    {
+         weather = timerComponent.Weather;
+    }
+    
+}
